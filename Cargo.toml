@@ -1,0 +1,21 @@
+[package]
+name = "mini-llm"
+version = "0.1.0"
+edition = "2021"
+default-run = "mini-llm"
+authors = ["mini-llm contributors"]
+description = "A minimalist, educational, from-scratch LLM inference engine in Rust"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+# Zero-copy memory mapping for GGUF binary files
+memmap2 = "0.9"
+# Data-parallel CPU execution for multi-threaded attention & projections
+rayon = "1.10"
+
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"

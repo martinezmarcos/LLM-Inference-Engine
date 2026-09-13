@@ -1,0 +1,28 @@
+# Rust build artifacts
+target/
+**/*.rs.bk
+*.pdb
+
+# Agent Operating System & AI Dev files (Keep out of git repo)
+AGENTS.md
+PROJECT.md
+.gemini/
+.agent/
+.agy/
+.cursor/
+.windsurf/
+
+# Model weights & large test binaries (do not commit GBs of weights)
+*.gguf
+*.bin
+*.safetensors
+models/
+data/
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+scratch/
