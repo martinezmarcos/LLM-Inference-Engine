@@ -17,40 +17,18 @@ A small, educational, and high-performance LLM inference engine implemented from
 
 ## Architecture
 
-```text
-Model Weights (GGUF)
-      │
-      ▼
- Model Loader (mmap zero-copy)
-      │
-      ▼
-  Tokenizer (BPE)
-      │
-      ▼
- Tensor Runtime (strides, views, contiguous buffers)
-      │
-      ▼
-  Transformer Decoder
-      │
-      ├── Token Embeddings
-      ├── RMSNorm
-      ├── RoPE (Rotary Position Embeddings)
-      ├── Multi-Head / GQA Causal Self-Attention
-      ├── KV Cache (Keys & Values history)
-      ├── SwiGLU / MLP Projection
-      └── Residual Connections
-      │
-      ▼
-    Logits
-      │
-      ▼
-   Sampler (Greedy / Temperature / Top-K / Top-P)
-      │
-      ▼
-   Next Token ID ──► Tokenizer Decode ──► Output Stream
-      │
-      └──────────────► Autoregressive Feedback Loop
-```
+The engine follows the standard decoder-only inference pipeline:
+
+1. **Model Loader (`src/model`)**: Maps GGUF files into memory using `mmap`, parses metadata, and loads tensor weights (FP32, FP16, Q8_0, Q4_0).
+2. **Tokenizer (`src/tokenizer`)**: Converts prompt text into token IDs via Byte-Pair Encoding (BPE), handling byte-level merges and spaces.
+3. **Tensor Runtime (`src/tensor`)**: Manages multidimensional arrays, contiguous/strided views, broadcasting, and core operations (`matmul`, `rms_norm`, `softmax`).
+4. **Transformer Decoder (`src/transformer`)**:
+   - **Embedding Lookup**: Maps token IDs to hidden states.
+   - **Transformer Blocks**: Layers with Pre-RMSNorm, Causal Multi-Head / Grouped-Query Attention (GQA), RoPE positional embeddings, and SwiGLU feed-forward networks with residual connections.
+   - **KV Cache (`src/cache`)**: Stores key and value states across steps to avoid recomputing previous tokens.
+   - **LM Head**: Projects normalized hidden states to vocabulary logits.
+5. **Sampler (`src/sampling`)**: Selects the next token applying temperature scaling, Top-K, and Top-P (nucleus) filtering.
+6. **Inference Engine (`src/inference`)**: Orchestrates prompt prefill and the autoregressive token-by-token generation loop.
 
 ## Supported Model Format
 
