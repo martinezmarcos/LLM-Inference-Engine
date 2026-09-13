@@ -60,7 +60,7 @@ Model Weights (GGUF)
 
 ## Build
 
-Requires a modern Rust toolchain (Rust 1.80+ recommended):
+Requires a modern Rust toolchain (Rust 1.80+):
 
 ```bash
 # Debug build
@@ -97,10 +97,3 @@ cargo run --release -- \
 
 - Optimized primarily for CPU execution (SIMD / multi-threading); GPU compute backends (Vulkan/Metal/CUDA) are intentionally deferred.
 - Training and backpropagation are not supported; the runtime is purely dedicated to forward-pass inference.
-
-## Future Work
-
-- [ ] SIMD micro-kernels using explicit AVX2 / AVX-512 and ARM NEON intrinsics.
-- [ ] Thread pool work-stealing for batched multi-head attention.
-- [ ] Speculative decoding support.
-- [ ] Extended quantization formats (k-quants: Q4_K_M, Q5_K_M).
