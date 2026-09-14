@@ -1,6 +1,6 @@
 # Documentación Técnica de mini-llm
 
-Este documento detalla las decisiones de arquitectura, fundamentos de ingeniería de sistemas y principios matemáticos detrás del runtime de inferencia **mini-llm**, implementado desde cero en Rust.
+Este documento detalla las decisiones de arquitectura, fundamentos de ingeniería de sistemas y principios matemáticos detrás del runtime de inferencia **mini-llm**, implementado desde cero en Rust. Este documento decidi llevarlo a cabo con un workflow de IA el cual iba documentando lo que hacia cada cierto tiempo.
 
 ---
 
